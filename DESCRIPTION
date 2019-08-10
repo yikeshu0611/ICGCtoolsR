@@ -1,0 +1,15 @@
+Package: ICGCtoolsR
+Title: To analysis ICGC database
+Version: 0.0.0.9000
+Authors@R: 
+    person("Zhang","Jing",role = c("aut", "cre"),email = "zj391120@163.com",comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.5.1)
+RoxygenNote: 6.1.1
+biocViews:
+Imports: limma,R.utils,stringr,tidyr, readr,svDialogs,ggplot2,plotly,dplyr,fdrtool,pheatmap,ROCit,rms
+URL: https://github.com/yikeshu0611/ICGCtoolsR
+BugReports: https://github.com/yikeshu0611/ICGCtoolsR/issues
