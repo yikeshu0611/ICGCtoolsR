@@ -156,27 +156,7 @@ ICGC.getData <- function(Release,Project,donor=FALSE,specimen=FALSE,exp_array=FA
       }
       message(tmcn::toUTF8('\u8BFB\u53D6: '),filename)
       data=as.data.frame(suppressMessages(readr::read_tsv(filename)))
-      if (all(substring(data$gene_id,1,4)=='ENSG')){
-        cat(tmcn::toUTF8('\u8F6C\u6362\u57FA\u56E0\u540D:\u4ECEgene symbol\u5230gene id\n'))
-        suppressMessages(library(org.Hs.eg.db))
-        colnames(data)[grep('gene_id',colnames(data))]='Ensemblname'
-        data$ensembl_id=unlist(stringr::str_split(data$Ensemblname,"[.]",simplify=T))[,1]
-        symbol2gene=dplyr::inner_join(data.frame(org.Hs.egSYMBOL),data.frame(org.Hs.egENSEMBL),'gene_id')
-
-
-        data2=merge(data,symbol2gene,all.x=TRUE)
-        dim(data2)
-        data2[1:100,c('ensembl_id','gene_id','symbol')]
-
-
-        data2=dplyr::inner_join(data,g2e,'ensembl_id')
-        data3=dplyr::inner_join(data2,g2s,'gene_id')
-        dotafter=unlist(stringr::str_split(data3$Ensemblname,"[.]",simplify=T))[,2]
-        data3$gene_id=paste0(data3$symbol,'.',dotafter)
-        ICGC.data=c(ICGC.data, exp_seq=list(data3))
-      }else{
-        ICGC.data=c(ICGC.data, exp_seq=list(data))
-      }
+      ICGC.data=c(ICGC.data, exp_seq=list(data))
       cat(paste0('-----',tmcn::toUTF8('\u6210\u529F\u8BFB\u53D6\u6570\u636E'),'-----'),'\n')
     }
   }else{
@@ -267,21 +247,8 @@ ICGC.getData <- function(Release,Project,donor=FALSE,specimen=FALSE,exp_array=FA
       }
       message("Read data: ",filename)
       data=as.data.frame(suppressMessages(readr::read_tsv(filename)))
-      if (all(substring(data$gene_id,1,4)=='ENSG')){
-        cat('transform gene symbol to gene id\n')
-        suppressMessages(library(org.Hs.eg.db))
-        colnames(data)[grep('gene_id',colnames(data))]='Ensemblname'
-        data$ensembl_id=unlist(stringr::str_split(data$Ensemblname,"[.]",simplify=T))[,1]
-        g2s=data.frame(org.Hs.egSYMBOL)
-        g2e=data.frame(org.Hs.egENSEMBL)
-        data2=dplyr::inner_join(data,g2e,'ensembl_id')
-        data3=dplyr::inner_join(data2,g2s,'gene_id')
-        dotafter=unlist(stringr::str_split(data3$Ensemblname,"[.]",simplify=T))[,2]
-        data3$gene_id=paste0(data3$symbol,'.',dotafter)
-        ICGC.data=c(ICGC.data, exp_seq=list(data3))
-      }else{
-        ICGC.data=c(ICGC.data, exp_array=list(data))
-      }
+      ICGC.data=c(ICGC.data, exp_array=list(data))
+
       cat("---succeed---\n")
     }
     if (exp_seq){
